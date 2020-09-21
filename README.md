@@ -8,6 +8,7 @@ github.com/ivanizag/apple2
 
 # building
 # optimizations disabled
-go build -gcflags '-N -l' -o libgithub.com-Davidian1024-libapple2.so -buildmode=c-shared .
-go install -gcflags '-N -l' -buildmode=shared .
+go build -o libapple2.so -buildmode=c-shared .
 
+# notes
+Initial gccgo builds always segfaulted.  After switching to golang.org's compiler the core loads and details passed from retro_get_system_info() appear in the GUI.

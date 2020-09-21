@@ -1,8 +1,11 @@
 //package libapple2
 package main
 
-import "fmt"
-import "unsafe"
+import (
+	"fmt"
+	"unsafe"
+	//gopointer "github.com/mattn/go-pointer"
+)
 
 /*
 #include <stdlib.h>
@@ -40,7 +43,6 @@ func retro_init() {
 	fmt.Println("libapple2 retro_init() end")
 }
 
-
 //export retro_deinit
 func retro_deinit() {
 	fmt.Println("libapple2 retro_deinit() start")
@@ -51,7 +53,7 @@ func retro_deinit() {
 func retro_api_version() C.unsigned {
 	fmt.Println("libapple2 retro_api_version() start")
 	fmt.Println("libapple2 retro_api_version() end")
-	return C.unsigned(0)
+	return C.unsigned(1)
 }
 
 //export retro_get_system_av_info
@@ -60,53 +62,42 @@ func retro_get_system_av_info(info *C.struct_retro_system_av_info) {
 	fmt.Println("libapple2 retro_get_system_av_info() end")
 }
 
-//export retro_set_environment
-func retro_set_environment(callback C.retro_environment_t) {
-	fmt.Println("libapple2 retro_set_environment() start")
-	callback = nil
-	fmt.Println("libapple2 retro_set_environment() end")
+//export set_environment_callback
+func set_environment_callback() C.bool{
+	fmt.Println("libapple2 set_environment_callback() start")
+	fmt.Println("libapple2 set_environment_callback() end")
+	return false
 }
-
-var set_video_refresh_callback_func = set_video_refresh_callback
 
 //export set_video_refresh_callback
-func set_video_refresh_callback() {
+func set_video_refresh_callback() C.bool {
 	fmt.Println("libapple2 set_video_refresh_callback() start")
 	fmt.Println("libapple2 set_video_refresh_callback() end")
-}
-//export retro_set_video_refresh
-func retro_set_video_refresh(callback C.retro_video_refresh_t) {
-	fmt.Println("libapple2 retro_set_video_refresh() start")
-	callback = set_video_refresh_callback_func
-	fmt.Println("libapple2 retro_set_video_refresh() end")
+	return false
 }
 
-//export retro_set_audio_sample
-func retro_set_audio_sample(callback C.retro_audio_sample_t) {
-	fmt.Println("libapple2 retro_set_audio_sample() start")
-	callback = nil
-	fmt.Println("libapple2 retro_set_audio_sample() end")
+//export set_audio_sample_callback
+func set_audio_sample_callback() {
+	fmt.Println("libapple2 set_audio_sample_callback() start")
+	fmt.Println("libapple2 set_audio_sample_callback() end")
 }
 
-//export retro_set_audio_sample_batch
-func retro_set_audio_sample_batch(callback C.retro_audio_sample_batch_t) {
-	fmt.Println("libapple2 retro_set_audio_sample_batch() start")
-	callback = nil
-	fmt.Println("libapple2 retro_set_audio_sample_batch() end")
+//export set_audio_sample_batch_callback
+func set_audio_sample_batch_callback() {
+	fmt.Println("libapple2 set_audio_sample_batch_callback() start")
+	fmt.Println("libapple2 set_audio_sample_batch_callback() end")
 }
 
-//export retro_set_input_poll
-func retro_set_input_poll(callback C.retro_input_poll_t) {
-	fmt.Println("libapple2 retro_set_input_poll() start")
-	callback = nil
-	fmt.Println("libapple2 retro_set_input_poll() end")
+//export set_input_poll_callback
+func set_input_poll_callback() {
+	fmt.Println("libapple2 set_input_poll_callback() start")
+	fmt.Println("libapple2 set_input_poll_callback() end")
 }
 
-//export retro_set_input_state
-func retro_set_input_state(callback C.retro_input_state_t) {
-	fmt.Println("libapple2 retro_set_input_state() start")
-	callback = nil
-	fmt.Println("libapple2 retro_set_input_state() end")
+//export set_input_state_callback
+func set_input_state_callback() {
+	fmt.Println("libapple2 set_input_state_callback() start")
+	fmt.Println("libapple2 set_input_state_callback() end")
 }
 
 //export retro_set_controller_port_device
@@ -121,10 +112,17 @@ func retro_reset() {
 	fmt.Println("libapple2 retro_reset() end")
 }
 
+var running = false
+
 //export retro_run
 func retro_run() {
-	fmt.Println("libapple2 retro_run() start")
-	fmt.Println("libapple2 retro_run() end")
+	if running {
+	} else {
+		fmt.Println("libapple2 retro_run() start")
+		fmt.Println("libapple2 retro_run() setting running to true to supress these messages")
+		running = true
+		fmt.Println("libapple2 retro_run() end")
+	}
 }
 
 //export retro_serialize_size
@@ -164,7 +162,7 @@ func retro_cheat_set(index C.unsigned, enabled C.bool, code *C.cchar_t) {
 func retro_load_game(game *C.cretro_game_info_t) C.bool {
 	fmt.Println("libapple2 retro_load_game() start")
 	fmt.Println("libapple2 retro_load_game() end")
-	return false
+	return true
 }
 
 //export retro_load_game_special
